@@ -1,14 +1,14 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
-
+const config = require('./config/config')
 const routes = require('./routes')
 
 const server = express()
 
 mongoose.connect(
-    'mongodb+srv://Mateuskwz:senha123123@cluster0.tqcxk.gcp.mongodb.net/<dbname>?retryWrites=true&w=majority',
-    { useNewUrlParser: true, useUnifiedTopology: true }
+    config.module.connectionDB.url,
+    config.module.connectionDB.configs
 )
 
 server.use(cors())
