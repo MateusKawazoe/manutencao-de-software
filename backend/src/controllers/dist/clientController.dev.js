@@ -1,20 +1,26 @@
 "use strict";
 
-var fs = require('fs');
-
-var path = require('path');
+var client = require('../model/client');
 
 module.exports = {
-  test: function test(req, res) {
-    var aux = JSON.parse(fs.readFileSync(path.join(__dirname, '../config/') + 'user.json'));
-    aux.user.token = "Safadinha demaiszinho!";
-    var data = JSON.stringify(aux, null, 2);
-    fs.writeFile(path.join(__dirname, '../config/') + 'user.json', data, finished);
+  showAll: function showAll(req, res) {
+    return regeneratorRuntime.async(function showAll$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.t0 = res;
+            _context.next = 3;
+            return regeneratorRuntime.awrap(client.find());
 
-    function finished(err) {
-      console.log('Tudo certo!');
-    }
+          case 3:
+            _context.t1 = _context.sent;
+            return _context.abrupt("return", _context.t0.json.call(_context.t0, _context.t1));
 
-    return res.json(aux);
+          case 5:
+          case "end":
+            return _context.stop();
+        }
+      }
+    });
   }
 };

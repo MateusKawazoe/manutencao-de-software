@@ -1,7 +1,7 @@
 const express = require('express')
 // const productController = require('./controllers/productController')
 const userController = require('./controllers/userController')
-// const distributorController = require('./controllers/distributorController')
+const distributorController = require('./controllers/distributorController')
 const clientController = require('./controllers/clientController')
 const routes = express.Router();
 
@@ -14,8 +14,14 @@ routes.post('/user/singin', userController.singin)
 
 // client routes--
 
-routes.get('/client/test', clientController.test)
+routes.get('/client/showAll', clientController.showAll)
 
 // --client routes
+
+// distributor routes--
+
+routes.get('/distributor/showAll', distributorController.showAll)
+
+// --distributor routes
 
 module.exports = routes

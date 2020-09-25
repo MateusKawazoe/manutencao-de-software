@@ -8,7 +8,7 @@ var md5 = require("md5");
 
 module.exports = {
   singup: function singup(req, res) {
-    var _req$body, nome, sobrenome, usuario, senha, userExists, token, aux;
+    var _req$body, nome, sobrenome, usuario, senha, userExists, token;
 
     return regeneratorRuntime.async(function singup$(_context) {
       while (1) {
@@ -51,10 +51,9 @@ module.exports = {
             }));
 
           case 11:
-            aux = _context.sent;
-            return _context.abrupt("return", res.status(201).json("Cadastro realizado com sucesso!" + aux));
+            return _context.abrupt("return", res.status(201).json("Cadastro realizado com sucesso!"));
 
-          case 13:
+          case 12:
           case "end":
             return _context.stop();
         }

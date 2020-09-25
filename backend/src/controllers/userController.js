@@ -26,7 +26,7 @@ module.exports = {
 			senha: md5(senha + global.SALT_KEY)
 		})
 
-		const aux = await user.create({
+		await user.create({
 			nome: nome,
 			sobrenome: sobrenome,
 			usuario: usuario,
@@ -34,7 +34,7 @@ module.exports = {
 			token: token
 		})
 
-		return res.status(201).json("Cadastro realizado com sucesso!" + aux)
+		return res.status(201).json("Cadastro realizado com sucesso!")
 	},
 
 	async singin(req, res) {
