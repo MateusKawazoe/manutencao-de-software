@@ -4,16 +4,16 @@ var distributor = require('../model/distributor');
 
 module.exports = {
   store: function store(req, res) {
-    var _req$body, nome, cnpj, exists;
+    var _req$body, nome, CNPJ, exists;
 
     return regeneratorRuntime.async(function store$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _req$body = req.body, nome = _req$body.nome, cnpj = _req$body.cnpj;
+            _req$body = req.body, nome = _req$body.nome, CNPJ = _req$body.CNPJ;
             _context.next = 3;
             return regeneratorRuntime.awrap(distributor.findOne({
-              cnpj: cnpj
+              CNPJ: CNPJ
             }));
 
           case 3:
@@ -30,7 +30,7 @@ module.exports = {
             _context.next = 8;
             return regeneratorRuntime.awrap(distributor.create({
               nome: nome,
-              cnpj: cnpj
+              CNPJ: CNPJ
             }));
 
           case 8:
@@ -64,16 +64,16 @@ module.exports = {
     });
   },
   update: function update(req, res) {
-    var _req$body2, nome, cnpj, auxNome, auxCnpj, exists;
+    var _req$body2, nome, CNPJ, auxNome, auxCNPJ, exists;
 
     return regeneratorRuntime.async(function update$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            _req$body2 = req.body, nome = _req$body2.nome, cnpj = _req$body2.cnpj;
+            _req$body2 = req.body, nome = _req$body2.nome, CNPJ = _req$body2.CNPJ;
             _context3.next = 3;
             return regeneratorRuntime.awrap(distributor.findOne({
-              cnpj: cnpj
+              CNPJ: CNPJ
             }));
 
           case 3:
@@ -91,17 +91,17 @@ module.exports = {
               auxNome = exists.nome;
             }
 
-            if (!cnpj) {
-              auxCnpj = exists.cnpj;
+            if (!CNPJ) {
+              auxCNPJ = exists.CNPJ;
             }
 
             _context3.next = 10;
             return regeneratorRuntime.awrap(distributor.updateOne({
-              cnpj: auxCnpj
+              CNPJ: auxCNPJ
             }, {
               $set: {
                 nome: auxNome,
-                cnpj: auxCnpj
+                CNPJ: auxCNPJ
               }
             }));
 
@@ -116,15 +116,15 @@ module.exports = {
     });
   },
   "delete": function _delete(req, res) {
-    var cnpj, exists;
+    var CNPJ, exists;
     return regeneratorRuntime.async(function _delete$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
-            cnpj = req.body.cnpj;
+            CNPJ = req.body.CNPJ;
             _context4.next = 3;
             return regeneratorRuntime.awrap(distributor.find({
-              cnpj: cnpj
+              CNPJ: CNPJ
             }));
 
           case 3:
@@ -140,7 +140,7 @@ module.exports = {
           case 6:
             _context4.next = 8;
             return regeneratorRuntime.awrap(distributor.deleteOne({
-              cnpj: cnpj
+              CNPJ: CNPJ
             }));
 
           case 8:

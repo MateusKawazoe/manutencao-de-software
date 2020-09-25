@@ -4,11 +4,11 @@ module.exports = {
     async store(req, res) {
         const {
             nome,
-            cnpj
+            CNPJ
         } = req.body
 
         const exists = await distributor.findOne({
-            cnpj: cnpj
+            CNPJ: CNPJ
         })
 
         if (exists) {
@@ -17,7 +17,7 @@ module.exports = {
 
         await distributor.create({
             nome: nome,
-            cnpj: cnpj
+            CNPJ: CNPJ
         })
 
         return res.json('Distribuidor cadastrado com sucesso!')
@@ -30,12 +30,12 @@ module.exports = {
     async update(req, res) {
         const {
             nome,
-            cnpj
+            CNPJ
         } = req.body
-        var auxNome, auxCnpj
+        var auxNome, auxCNPJ
 
         const exists = await distributor.findOne({
-            cnpj: cnpj
+            CNPJ: CNPJ
         })
 
         if (!exists) {
@@ -46,16 +46,16 @@ module.exports = {
             auxNome = exists.nome
         }
 
-        if (!cnpj) {
-            auxCnpj = exists.cnpj
+        if (!CNPJ) {
+            auxCNPJ = exists.CNPJ
         }
 
         await distributor.updateOne({
-            cnpj: auxCnpj
+            CNPJ: auxCNPJ
         }, {
             $set: {
                 nome: auxNome,
-                cnpj: auxCnpj
+                CNPJ: auxCNPJ
             }
         })
 
@@ -63,10 +63,10 @@ module.exports = {
     },
 
     async delete(req, res) {
-        const { cnpj } = req.body
+        const { CNPJ } = req.body
 
         const exists = await distributor.find({
-            cnpj: cnpj
+            CNPJ: CNPJ
         })
 
         if(!exists) {
@@ -74,7 +74,7 @@ module.exports = {
         }
 
         await distributor.deleteOne({
-            cnpj: cnpj
+            CNPJ: CNPJ
         })
 
         return res.json('Distribuidor excluído com sucesso!')
