@@ -6,6 +6,9 @@ var auth_token = require('../services/auth');
 
 var md5 = require("md5");
 
+var _require = require("./distributorController"),
+    showAll = _require.showAll;
+
 module.exports = {
   singup: function singup(req, res) {
     var _req$body, nome, sobrenome, usuario, senha, userExists, token;
@@ -142,6 +145,26 @@ module.exports = {
           case 25:
           case "end":
             return _context2.stop();
+        }
+      }
+    });
+  },
+  showAll: function showAll(req, res) {
+    return regeneratorRuntime.async(function showAll$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            _context3.t0 = res;
+            _context3.next = 3;
+            return regeneratorRuntime.awrap(user.find());
+
+          case 3:
+            _context3.t1 = _context3.sent;
+            return _context3.abrupt("return", _context3.t0.json.call(_context3.t0, _context3.t1));
+
+          case 5:
+          case "end":
+            return _context3.stop();
         }
       }
     });

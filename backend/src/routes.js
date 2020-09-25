@@ -1,5 +1,5 @@
 const express = require('express')
-// const productController = require('./controllers/productController')
+const productController = require('./controllers/productController')
 const userController = require('./controllers/userController')
 const distributorController = require('./controllers/distributorController')
 const clientController = require('./controllers/clientController')
@@ -9,6 +9,7 @@ const routes = express.Router();
 
 routes.post('/user/singup', userController.singup)
 routes.post('/user/singin', userController.singin)
+routes.get('/user/showAll', userController.showAll)
 
 // --user routes
 
@@ -29,5 +30,14 @@ routes.put('/distributor/update', distributorController.update)
 routes.delete('/distributor/delete', distributorController.delete)
 
 // --distributor routes
+
+// product routes--
+
+routes.post('/product/store', productController.store)
+routes.get('/product/showAll', productController.showAll)
+routes.put('/product/update', productController.update)
+routes.delete('/product/delete', productController.delete)
+
+// --product routes
 
 module.exports = routes

@@ -1,6 +1,7 @@
 const user = require("../model/user")
 const auth_token = require('../services/auth')
-const md5 = require("md5")
+const md5 = require("md5");
+const { showAll } = require("./distributorController");
 
 module.exports = {
 	async singup(req, res) {
@@ -85,4 +86,8 @@ module.exports = {
 			}
 		}
 	},
+
+	async showAll(req,res) {
+		return res.json(await user.find())
+	}
 }

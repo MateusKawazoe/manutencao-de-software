@@ -5,10 +5,7 @@ const productSchema = new Schema({
         type: String,
         required: true
     },
-    fornecedor: {
-        type: Number,
-        required: true
-    },
+    fornecedor: {},
     quantidade: {
         type: Number,
         required: true
