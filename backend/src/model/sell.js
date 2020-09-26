@@ -1,9 +1,12 @@
 const { Schema, model } = require('mongoose')
 
 const sellSchema = new Schema({
-    produto: {},
+    produto_id: {
+        type: String,
+        required: true
+    },
     cliente: {
-        type: Number,
+        type: String,
         required: true
     },
     quantidade: {

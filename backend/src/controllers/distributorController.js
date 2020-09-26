@@ -27,6 +27,22 @@ module.exports = {
         return res.json(await distributor.find())
     },
 
+    async showOne(req, res) {
+        const {
+            CNPJ
+        } = req.body
+
+        const exists = await distributor.findOne({
+            CNPJ: CNPJ
+        })
+
+        if(exists) {
+            return res.json(exists)
+        } else {
+            return res.json('Distribuidor não existe!')
+        }
+    },
+
     async update(req, res) {
         const {
             nome,

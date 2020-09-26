@@ -89,14 +89,14 @@ module.exports = {
       }
     });
   },
-  update: function update(req, res) {
-    var _req$body2, nome, novoNome, fornecedor, quantidade, precoCompra, precoVenda, auxNome, auxQuantidade, auxPrecoVenda, auxPrecoCompra, exists;
+  showOne: function showOne(req, res) {
+    var _req$body2, nome, fornecedor, exists;
 
-    return regeneratorRuntime.async(function update$(_context3) {
+    return regeneratorRuntime.async(function showOne$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            _req$body2 = req.body, nome = _req$body2.nome, novoNome = _req$body2.novoNome, fornecedor = _req$body2.fornecedor, quantidade = _req$body2.quantidade, precoCompra = _req$body2.precoCompra, precoVenda = _req$body2.precoVenda;
+            _req$body2 = req.body, nome = _req$body2.nome, fornecedor = _req$body2.fornecedor;
             _context3.next = 3;
             return regeneratorRuntime.awrap(product.findOne({
               nome: nome,
@@ -106,12 +106,46 @@ module.exports = {
           case 3:
             exists = _context3.sent;
 
-            if (exists) {
-              _context3.next = 6;
+            if (!exists) {
+              _context3.next = 8;
               break;
             }
 
-            return _context3.abrupt("return", res.json('Produto não cadastrado!'));
+            return _context3.abrupt("return", res.json(exists));
+
+          case 8:
+            return _context3.abrupt("return", res.json('Produto não existe!'));
+
+          case 9:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    });
+  },
+  update: function update(req, res) {
+    var _req$body3, nome, novoNome, fornecedor, quantidade, precoCompra, precoVenda, auxNome, auxQuantidade, auxPrecoVenda, auxPrecoCompra, exists;
+
+    return regeneratorRuntime.async(function update$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            _req$body3 = req.body, nome = _req$body3.nome, novoNome = _req$body3.novoNome, fornecedor = _req$body3.fornecedor, quantidade = _req$body3.quantidade, precoCompra = _req$body3.precoCompra, precoVenda = _req$body3.precoVenda;
+            _context4.next = 3;
+            return regeneratorRuntime.awrap(product.findOne({
+              nome: nome,
+              fornecedor: fornecedor
+            }));
+
+          case 3:
+            exists = _context4.sent;
+
+            if (exists) {
+              _context4.next = 6;
+              break;
+            }
+
+            return _context4.abrupt("return", res.json('Produto não cadastrado!'));
 
           case 6:
             if (!novoNome) {
@@ -138,7 +172,7 @@ module.exports = {
               auxPrecoVenda = precoVenda;
             }
 
-            _context3.next = 12;
+            _context4.next = 12;
             return regeneratorRuntime.awrap(product.updateOne({
               _id: exists._id
             }, {
@@ -151,52 +185,52 @@ module.exports = {
             }));
 
           case 12:
-            return _context3.abrupt("return", res.json('Produto atualizado com sucesso!'));
+            return _context4.abrupt("return", res.json('Produto atualizado com sucesso!'));
 
           case 13:
           case "end":
-            return _context3.stop();
+            return _context4.stop();
         }
       }
     });
   },
   "delete": function _delete(req, res) {
-    var _req$body3, nome, fornecedor, exists;
+    var _req$body4, nome, fornecedor, exists;
 
-    return regeneratorRuntime.async(function _delete$(_context4) {
+    return regeneratorRuntime.async(function _delete$(_context5) {
       while (1) {
-        switch (_context4.prev = _context4.next) {
+        switch (_context5.prev = _context5.next) {
           case 0:
-            _req$body3 = req.body, nome = _req$body3.nome, fornecedor = _req$body3.fornecedor;
-            _context4.next = 3;
+            _req$body4 = req.body, nome = _req$body4.nome, fornecedor = _req$body4.fornecedor;
+            _context5.next = 3;
             return regeneratorRuntime.awrap(product.findOne({
               nome: nome,
               fornecedor: fornecedor
             }));
 
           case 3:
-            exists = _context4.sent;
+            exists = _context5.sent;
 
             if (exists) {
-              _context4.next = 6;
+              _context5.next = 6;
               break;
             }
 
-            return _context4.abrupt("return", res.json('Produto não existe!'));
+            return _context5.abrupt("return", res.json('Produto não existe!'));
 
           case 6:
-            _context4.next = 8;
+            _context5.next = 8;
             return regeneratorRuntime.awrap(product.deleteOne({
               nome: nome,
               fornecedor: fornecedor
             }));
 
           case 8:
-            return _context4.abrupt("return", res.json('Produto excluído com sucesso!'));
+            return _context5.abrupt("return", res.json('Produto excluído com sucesso!'));
 
           case 9:
           case "end":
-            return _context4.stop();
+            return _context5.stop();
         }
       }
     });

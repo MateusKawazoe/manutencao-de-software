@@ -46,6 +46,24 @@ module.exports = {
         return res.json(await product.find())
     },
 
+    async showOne(req, res) {
+        const {
+            nome,
+            fornecedor
+        } = req.body
+
+        const exists = await product.findOne({
+            nome: nome,
+            fornecedor: fornecedor
+        })
+
+        if(exists) {
+            return res.json(exists)
+        } else {
+            return res.json('Produto não existe!')
+        }
+    },
+
     async update(req, res) {
         const {
             nome,

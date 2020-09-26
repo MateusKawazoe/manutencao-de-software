@@ -29,6 +29,22 @@ module.exports = {
         return res.json(await client.find())
     },
 
+    async showOne(req, res) {
+        const {
+            CPF
+        } = req.body
+
+        const exists = await client.findOne({
+            CPF: CPF
+        })
+
+        if(exists) {
+            return res.json(exists)
+        } else {
+            return res.json('Cliente não existe!')
+        }
+    },
+
     async update(req, res) {
         const {
             nome,

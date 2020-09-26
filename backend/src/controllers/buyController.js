@@ -4,13 +4,13 @@ const product = require('../model/product')
 module.exports = {
     async store(req, res) {
         const {
-            produto,
+            produto_id,
             quantidade,
             valor
         } = req.body
 
         var exists = await product.findOne({
-            _id: produto._id
+            _id: produto_id
         })
 
         if (!exists) {
@@ -23,17 +23,17 @@ module.exports = {
         }
 
         await product.updateOne({
-                _id: produto._id
+                _id: produto_id
             }, {
                 $set: {
                     quantidade: exists.quantidade,
-                    precoCompra: exists.precoCompra
+                    precoCompra: exists.precoCompra.toFixed(2)
                 }
             }
         )
 
         await buy.create({
-            produto: exists,
+            produto_id: produto_id,
             quantidade: quantidade,
             valor: valor,
             data: new Date()
@@ -48,20 +48,18 @@ module.exports = {
 
     async delete(req, res) {
         const {
-            produto,
+            produto_id,
             quantidade,
             valor,
             data
         } = req.body
 
         const exists = await product.findOne({
-            _id: produto
+            _id: produto_id
         })
 
-        console.log(exists)
-
         const aux = await buy.findOne({
-            // produto: exists
+            produto_id: produto_id,
             quantidade: quantidade,
             valor: valor,
             data: data
@@ -75,13 +73,12 @@ module.exports = {
         const valorCompra = (exists.precoCompra - ( coef * valor))
         const valorProduto = valorCompra / (1 - coef)
 
-
         await product.updateOne({
-            _id: produto
+            _id: produto_id
         }, {
             $set: {
                 quantidade: exists.quantidade - quantidade,
-                precoCompra: Math.round(valorProduto/1.12)
+                precoCompra: (valorProduto/1.12).toFixed(2)
             }
         })
 

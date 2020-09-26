@@ -64,14 +64,13 @@ module.exports = {
       }
     });
   },
-  update: function update(req, res) {
-    var _req$body2, nome, CPF, nascimento, auxNome, auxCPF, auxNascimento, exists;
-
-    return regeneratorRuntime.async(function update$(_context3) {
+  showOne: function showOne(req, res) {
+    var CPF, exists;
+    return regeneratorRuntime.async(function showOne$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            _req$body2 = req.body, nome = _req$body2.nome, CPF = _req$body2.CPF, nascimento = _req$body2.nascimento;
+            CPF = req.body.CPF;
             _context3.next = 3;
             return regeneratorRuntime.awrap(client.findOne({
               CPF: CPF
@@ -80,12 +79,45 @@ module.exports = {
           case 3:
             exists = _context3.sent;
 
-            if (exists) {
-              _context3.next = 6;
+            if (!exists) {
+              _context3.next = 8;
               break;
             }
 
-            return _context3.abrupt("return", res.json('Dados inválidos!'));
+            return _context3.abrupt("return", res.json(exists));
+
+          case 8:
+            return _context3.abrupt("return", res.json('Cliente não existe!'));
+
+          case 9:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    });
+  },
+  update: function update(req, res) {
+    var _req$body2, nome, CPF, nascimento, auxNome, auxCPF, auxNascimento, exists;
+
+    return regeneratorRuntime.async(function update$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            _req$body2 = req.body, nome = _req$body2.nome, CPF = _req$body2.CPF, nascimento = _req$body2.nascimento;
+            _context4.next = 3;
+            return regeneratorRuntime.awrap(client.findOne({
+              CPF: CPF
+            }));
+
+          case 3:
+            exists = _context4.sent;
+
+            if (exists) {
+              _context4.next = 6;
+              break;
+            }
+
+            return _context4.abrupt("return", res.json('Dados inválidos!'));
 
           case 6:
             if (!nome) {
@@ -106,7 +138,7 @@ module.exports = {
               auxNascimento = nascimento;
             }
 
-            _context3.next = 11;
+            _context4.next = 11;
             return regeneratorRuntime.awrap(client.updateOne({
               CPF: auxCPF
             }, {
@@ -118,49 +150,49 @@ module.exports = {
             }));
 
           case 11:
-            return _context3.abrupt("return", res.json('Cliente atualizado com sucesso!'));
+            return _context4.abrupt("return", res.json('Cliente atualizado com sucesso!'));
 
           case 12:
           case "end":
-            return _context3.stop();
+            return _context4.stop();
         }
       }
     });
   },
   "delete": function _delete(req, res) {
     var CPF, exists;
-    return regeneratorRuntime.async(function _delete$(_context4) {
+    return regeneratorRuntime.async(function _delete$(_context5) {
       while (1) {
-        switch (_context4.prev = _context4.next) {
+        switch (_context5.prev = _context5.next) {
           case 0:
             CPF = req.body.CPF;
-            _context4.next = 3;
+            _context5.next = 3;
             return regeneratorRuntime.awrap(client.find({
               CPF: CPF
             }));
 
           case 3:
-            exists = _context4.sent;
+            exists = _context5.sent;
 
             if (exists) {
-              _context4.next = 6;
+              _context5.next = 6;
               break;
             }
 
-            return _context4.abrupt("return", res.json('Cliente não existe!'));
+            return _context5.abrupt("return", res.json('Cliente não existe!'));
 
           case 6:
-            _context4.next = 8;
+            _context5.next = 8;
             return regeneratorRuntime.awrap(client.deleteOne({
               CPF: CPF
             }));
 
           case 8:
-            return _context4.abrupt("return", res.json('Cliente excluído com sucesso!'));
+            return _context5.abrupt("return", res.json('Cliente excluído com sucesso!'));
 
           case 9:
           case "end":
-            return _context4.stop();
+            return _context5.stop();
         }
       }
     });
