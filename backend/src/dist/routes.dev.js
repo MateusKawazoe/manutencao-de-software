@@ -10,6 +10,8 @@ var distributorController = require('./controllers/distributorController');
 
 var clientController = require('./controllers/clientController');
 
+var buyController = require('./controllers/buyController');
+
 var routes = express.Router(); // user routes--
 
 routes.post('/user/singup', userController.singup);
@@ -33,5 +35,10 @@ routes.post('/product/store', productController.store);
 routes.get('/product/showAll', productController.showAll);
 routes.put('/product/update', productController.update);
 routes["delete"]('/product/delete', productController["delete"]); // --product routes
+// buy routes--
+
+routes.post('/buy/store', buyController.store);
+routes.get('/buy/showAll', buyController.showAll);
+routes["delete"]('/buy/delete', buyController["delete"]); // --buy routes
 
 module.exports = routes;

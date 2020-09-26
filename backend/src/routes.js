@@ -3,6 +3,7 @@ const productController = require('./controllers/productController')
 const userController = require('./controllers/userController')
 const distributorController = require('./controllers/distributorController')
 const clientController = require('./controllers/clientController')
+const buyController = require('./controllers/buyController')
 const routes = express.Router();
 
 // user routes--
@@ -39,5 +40,13 @@ routes.put('/product/update', productController.update)
 routes.delete('/product/delete', productController.delete)
 
 // --product routes
+
+// buy routes--
+
+routes.post('/buy/store', buyController.store)
+routes.get('/buy/showAll', buyController.showAll)
+routes.delete('/buy/delete', buyController.delete)
+
+// --buy routes
 
 module.exports = routes
