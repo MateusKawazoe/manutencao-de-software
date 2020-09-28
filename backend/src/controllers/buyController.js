@@ -14,7 +14,7 @@ module.exports = {
         })
 
         if (!exists) {
-            return res.status(401).json('Produto não existe!')
+            return res.json('Produto não existe!')
         } else {
             exists.quantidade = exists.quantidade + quantidade
             const porcentProduto = (exists.precoCompra / (exists.precoCompra + valor))
@@ -66,7 +66,7 @@ module.exports = {
         })
 
         if (!aux) {
-            return res.status(401).json('Compra não cadastrada!')
+            return res.json('Compra não cadastrada!')
         }
 
         const coef = (quantidade / exists.quantidade)

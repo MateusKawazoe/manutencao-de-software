@@ -8,7 +8,7 @@ const server = express()
 
 mongoose.connect(
     config.module.connectionDB.url,
-    config.module.connectionDB.configs
+    { useNewUrlParser: true, useUnifiedTopology: true }
 )
 
 server.use(cors())

@@ -1,0 +1,95 @@
+.function-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+    .function-container > .buttons {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+        margin-right: 90px;
+        list-style-type: none;
+    }
+
+        .function-container > .buttons > li {
+            width: 200px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 40px;
+            position: relative;
+            cursor: pointer;
+        }
+
+            .function-container > .buttons > li:active {
+                opacity: 0.6;
+            }
+
+            .function-container > .buttons > li > .icon {
+                width: 68px;
+                height: 68px;
+            }
+
+            .function-container > .buttons > li > .icon:active {
+                opacity: 1;
+            }
+
+            #cadastrar {
+                color: rgb(0, 247, 0);
+                z-index: 1;
+            }
+
+            #modificar {
+                width: 52px;
+                height: 52px;
+                border-radius: 6px;
+                background-color: rgb(255, 255, 0);
+                color: white;
+                z-index: 1;
+            }
+
+            #deletar {
+                width: 56px;
+                height: 51px;
+                background-color: red;
+                color: white;
+                z-index: 1;
+                border-radius: 6px;
+            }
+
+            .function-container > .buttons > li > p {
+                width: 75%;
+                height: 50px;
+                position: absolute;
+                border-top-right-radius: 8px;
+                border-bottom-right-radius: 8px;
+                right: -70px;
+                font-size: 25px;
+                font-weight: 600;
+                display: flex;
+                justify-content: center;
+                color: rgb(255, 255, 0);
+                border: 1px solid rgb(255, 255, 0);
+                align-items: center;
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            }
+
+            .function-container > .buttons > li:first-child > p {
+                background-color: #fff;
+                border: 1px solid rgb(0, 247, 0);
+                color: rgb(0, 247, 0);
+            }
+
+            .function-container > .buttons > li:last-child > p {
+                background-color: fff;
+                border: 1px solid red;
+                color: red;
+            }
+
+            #modificar > p {
+                background-color: #fff;
+                
+            }

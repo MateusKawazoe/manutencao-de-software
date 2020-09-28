@@ -1,13 +1,10 @@
 const user = require("../model/user")
 const auth_token = require('../services/auth')
 const md5 = require("md5");
-const { showAll } = require("./distributorController");
 
 module.exports = {
-	async singup(req, res) {
+	async signup(req, res) {
 		const {
-			nome,
-			sobrenome,
 			usuario,
 			senha
 		} = req.body;
@@ -17,28 +14,24 @@ module.exports = {
 		})
 
 		if (userExists) {
-			return res.status(401).json("Usuário já cadastrado!")
+			return res.json("Usuário já cadastrado!")
 		}
 
 		const token = await auth_token.generateToken({
-			nome: nome,
-			sobrenome: sobrenome,
 			usuario: usuario,
 			senha: md5(senha + global.SALT_KEY)
 		})
 
 		await user.create({
-			nome: nome,
-			sobrenome: sobrenome,
 			usuario: usuario,
 			senha: md5(senha + global.SALT_KEY),
 			token: token
 		})
 
-		return res.status(201).json("Cadastro realizado com sucesso!")
+		return res.status(201).json(token)
 	},
 
-	async singin(req, res) {
+	async signin(req, res) {
 		const {
 			usuario,
 			senha,
@@ -50,7 +43,7 @@ module.exports = {
 		})
 
 		if (!userExists) {
-			return res.status(401).json("Usuário não existe!")
+			return res.json(1)
 		}
 
 		if (userExists.token) {
@@ -64,8 +57,6 @@ module.exports = {
 						auxToken = token
 					} else {
 						auxToken = await auth_token.generateToken({
-							nome: userExists.nome,
-							sobrenome: userExists.sobrenome,
 							usuario: userExists.usuario,
 							senha: md5(userExists.senha + global.SALT_KEY)
 						})
@@ -81,13 +72,23 @@ module.exports = {
 
 					return res.status(201).json(auxToken)
 				} else {
-					return res.status(401).json("Senha inválida!")
+					return res.json(2)
 				}
 			}
 		}
 	},
 
-	async showAll(req,res) {
+	async showAll(req, res) {
 		return res.json(await user.find())
+	},
+
+	async delete(req, res) {
+		const {
+			usuario
+		} = req.body
+
+		return res.json(await user.deleteOne({
+			usuario
+		}))
 	}
 }
