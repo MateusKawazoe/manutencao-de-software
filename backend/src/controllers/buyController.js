@@ -1,5 +1,6 @@
 const buy = require('../model/buy')
 const product = require('../model/product')
+const { showOne } = require('./productController')
 
 module.exports = {
     async store(req, res) {
@@ -14,7 +15,7 @@ module.exports = {
         })
 
         if (!exists) {
-            return res.json('Produto não existe!')
+            return res.json(1)
         } else {
             exists.quantidade = exists.quantidade + quantidade
             const porcentProduto = (exists.precoCompra / (exists.precoCompra + valor))
@@ -39,11 +40,33 @@ module.exports = {
             data: new Date()
         })
 
-        return res.json('Compra efetuada!')
+        return res.json(2)
     },
 
     async showAll(req, res) {
         return res.json(await buy.find())
+    },
+
+    async showOne(req, res) {
+        const {
+            produto_id,
+            quantidade,
+            valor,
+            data
+        } = req.body
+
+        const exists = await buy.findOne({
+            produto_id: produto_id,
+            quantidade: quantidade,
+            valor: valor,
+            data: data
+        })
+
+        if(exists){
+            return res.json(exists)
+        } else {
+            return res.json(1)
+        }
     },
 
     async delete(req, res) {
@@ -66,7 +89,7 @@ module.exports = {
         })
 
         if (!aux) {
-            return res.json('Compra não cadastrada!')
+            return res.json(1)
         }
 
         const coef = (quantidade / exists.quantidade)
@@ -86,6 +109,6 @@ module.exports = {
             _id: aux._id
         })
 
-        return res.json('Compra excluída com sucesso!')
+        return res.json(2)
     }
 }

@@ -20,9 +20,11 @@ routes.delete('/user/delete', userController.delete)
 
 routes.post('/client/store', clientController.store)
 routes.get('/client/showAll', clientController.showAll)
-routes.get('/client/showOne', clientController.showOne)
+routes.post('/client/showOne', clientController.showOne)
+routes.post('/client/showOneById', clientController.showOneById)
+routes.post('/client/showOneByName', productController.showOneByName)
 routes.put('/client/update', clientController.update)
-routes.delete('/client/delete', clientController.delete)
+routes.post('/client/delete', clientController.delete)
 
 // --client routes
 
@@ -30,9 +32,9 @@ routes.delete('/client/delete', clientController.delete)
 
 routes.post('/distributor/store', distributorController.store)
 routes.get('/distributor/showAll', distributorController.showAll)
-routes.get('/distributor/showOne', distributorController.showOne)
+routes.post('/distributor/showOne', distributorController.showOne)
 routes.put('/distributor/update', distributorController.update)
-routes.delete('/distributor/delete', distributorController.delete)
+routes.post('/distributor/delete', distributorController.delete)
 
 // --distributor routes
 
@@ -40,9 +42,12 @@ routes.delete('/distributor/delete', distributorController.delete)
 
 routes.post('/product/store', productController.store)
 routes.get('/product/showAll', productController.showAll)
-routes.get('/product/showOne', productController.showOne)
+routes.post('/product/showOne', productController.showOne)
+routes.post('/product/showByDistributor', productController.showByDistributor)
+routes.post('/product/showOneByName', productController.showOneByName)
+routes.post('/product/showById', productController.showById)
 routes.put('/product/update', productController.update)
-routes.delete('/product/delete', productController.delete)
+routes.post('/product/delete', productController.delete)
 
 // --product routes
 
@@ -50,7 +55,8 @@ routes.delete('/product/delete', productController.delete)
 
 routes.post('/buy/store', buyController.store)
 routes.get('/buy/showAll', buyController.showAll)
-routes.delete('/buy/delete', buyController.delete)
+routes.post('/buy/showOne', buyController.showOne)
+routes.post('/buy/delete', buyController.delete)
 
 // --buy routes
 
@@ -58,7 +64,8 @@ routes.delete('/buy/delete', buyController.delete)
 
 routes.post('/sell/store', sellController.store)
 routes.get('/sell/showAll', sellController.showAll)
-routes.delete('/sell/delete', sellController.delete)
+routes.post('/sell/showOne', sellController.showOne)
+routes.post('/sell/delete', sellController.delete)
 
 // --sell routes
 

@@ -12,7 +12,7 @@ module.exports = {
         })
 
         if (exists) {
-            return res.json('Distribuidor já cadastrado!')
+            return res.json(1)
         }
 
         await distributor.create({
@@ -20,7 +20,7 @@ module.exports = {
             CNPJ: CNPJ
         })
 
-        return res.json('Distribuidor cadastrado com sucesso!')
+        return res.json(2)
     },
 
     async showAll(req, res) {
@@ -39,7 +39,7 @@ module.exports = {
         if(exists) {
             return res.json(exists)
         } else {
-            return res.json('Distribuidor não existe!')
+            return res.json(1)
         }
     },
 
@@ -48,34 +48,29 @@ module.exports = {
             nome,
             CNPJ
         } = req.body
-        var auxNome, auxCNPJ
+        var auxNome
 
         const exists = await distributor.findOne({
             CNPJ: CNPJ
         })
 
         if (!exists) {
-            return res.json('Distribuidor não existe!')
+            return res.json(1)
         }
 
         if (!nome) {
-            auxNome = exists.nome
-        }
-
-        if (!CNPJ) {
-            auxCNPJ = exists.CNPJ
+            return res.json(3)
         }
 
         await distributor.updateOne({
-            CNPJ: auxCNPJ
+            CNPJ: CNPJ
         }, {
             $set: {
-                nome: auxNome,
-                CNPJ: auxCNPJ
+                nome: nome
             }
         })
 
-        return res.json('Distribuidor atualizado com sucesso!')
+        return res.json(2)
     },
 
     async delete(req, res) {
@@ -86,13 +81,13 @@ module.exports = {
         })
 
         if(!exists) {
-            return res.json('Distribuidor não existe!')
+            return res.json(1)
         }
 
         await distributor.deleteOne({
             CNPJ: CNPJ
         })
 
-        return res.json('Distribuidor excluído com sucesso!')
+        return res.json(2)
     }
 }

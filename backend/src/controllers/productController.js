@@ -20,6 +20,8 @@ module.exports = {
                 nome: fornecedor.nome,
                 CNPJ: fornecedor.CNPJ
             })
+        } else {
+            return res.json(3)
         }
 
         const exists = await product.findOne({
@@ -28,7 +30,7 @@ module.exports = {
         })
 
         if (exists) {
-            return res.json('Produto já cadastrado!')
+            return res.json(1)
         }
 
         await product.create({
@@ -39,11 +41,59 @@ module.exports = {
             precoVenda: precoVenda
         })
 
-        return res.json('Produto cadastrado com sucesso!')
+        return res.json(2)
     },
 
     async showAll(req, res) {
         return res.json(await product.find())
+    },
+
+    async showOneByName(req, res) {
+        const { nome } = req.body
+
+        const exists = await product.findOne({
+            nome: nome
+        })
+        
+        if(exists) {
+            return res.json(exists)
+        } else {
+            return res.json(1)
+        }
+    },
+
+    async showByDistributor(req, res) {
+        const {
+            nome,
+            fornecedor
+        } = req.body
+
+        const exists = await product.findOne({
+            nome: nome,
+            'fornecedor.nome': fornecedor
+        })
+
+        if (exists) {
+            return res.json(exists)
+        } else {
+            return res.json(1)
+        }
+    },
+
+    async showById(req, res) {
+        const {
+            _id
+        } = req.body
+
+        const exists = await product.findOne({
+            _id
+        })
+
+        if (exists) {
+            return res.json(exists)
+        } else {
+            return res.json(1)
+        }
     },
 
     async showOne(req, res) {
@@ -57,10 +107,10 @@ module.exports = {
             fornecedor: fornecedor
         })
 
-        if(exists) {
+        if (exists) {
             return res.json(exists)
         } else {
-            return res.json('Produto não existe!')
+            return res.json(1)
         }
     },
 
@@ -82,7 +132,7 @@ module.exports = {
         })
 
         if (!exists) {
-            return res.json('Produto não cadastrado!')
+            return res.json(1)
         }
 
         if (!novoNome) {
@@ -120,7 +170,7 @@ module.exports = {
             }
         })
 
-        return res.json('Produto atualizado com sucesso!')
+        return res.json(2)
     },
 
     async delete(req, res) {
@@ -135,7 +185,7 @@ module.exports = {
         })
 
         if (!exists) {
-            return res.json('Produto não existe!')
+            return res.json(1)
         }
 
         await product.deleteOne({
@@ -143,6 +193,6 @@ module.exports = {
             fornecedor: fornecedor
         })
 
-        return res.json('Produto excluído com sucesso!')
+        return res.json(2)
     }
 }

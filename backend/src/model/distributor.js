@@ -6,7 +6,7 @@ const distributorSchema = new Schema({
         required: true
     },
     CNPJ: {
-        type: Number,
+        type: String,
         required: true
     }
 }, {

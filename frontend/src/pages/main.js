@@ -177,8 +177,7 @@ export default function Main({ history }) {
                 ) : (
                     <></>
                 )}
-            </div>
-            
+            </div> 
         </div>
     )
 }

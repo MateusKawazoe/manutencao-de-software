@@ -6,7 +6,7 @@ const clientSchema = new Schema({
         required: true
     },
     CPF: {
-        type: Number,
+        type: String,
         required: true
     },
     nascimento: {

@@ -13,7 +13,7 @@ module.exports = {
         })
 
         if (exists) {
-            return res.json('Cliente já cadastrado!')
+            return res.json(1)
         }
 
         await client.create({
@@ -22,11 +22,27 @@ module.exports = {
             nascimento: nascimento
         })
 
-        return res.json('Cliente cadastrado com sucesso!')
+        return res.json(2)
     },
 
     async showAll(req, res) {
         return res.json(await client.find())
+    },
+
+    async showOneByName(req, res) {
+        const {
+            nome
+        } = req.body
+
+        const exists = await client.findOne({
+            nome: nome
+        })
+
+        if (exists) {
+            return res.json(exists)
+        } else {
+            return res.json(1)
+        }
     },
 
     async showOne(req, res) {
@@ -38,10 +54,26 @@ module.exports = {
             CPF: CPF
         })
 
+        if (exists) {
+            return res.json(exists)
+        } else {
+            return res.json(1)
+        }
+    },
+
+    async showOneById(req, res) {
+        const {
+            cliente
+        } = req.body
+
+        const exists = await client.findOne({
+            _id: cliente
+        })
+
         if(exists) {
             return res.json(exists)
         } else {
-            return res.json('Cliente não existe!')
+            return 1
         }
     },
 
@@ -58,7 +90,7 @@ module.exports = {
         })
 
         if (!exists) {
-            return res.json('Dados inválidos!')
+            return res.json(1)
         }
 
         if (!nome) {
@@ -73,7 +105,7 @@ module.exports = {
             auxCPF = CPF
         }
 
-        if(!nascimento){
+        if (!nascimento) {
             auxNascimento = exists.nascimento
         } else {
             auxNascimento = nascimento
@@ -89,7 +121,7 @@ module.exports = {
             }
         })
 
-        return res.json('Cliente atualizado com sucesso!')
+        return res.json(2)
     },
 
     async delete(req, res) {
@@ -102,13 +134,13 @@ module.exports = {
         })
 
         if (!exists) {
-            return res.json('Cliente não existe!')
+            return res.json(1)
         }
 
         await client.deleteOne({
             CPF: CPF
         })
 
-        return res.json('Cliente excluído com sucesso!')
+        return res.json(2)
     }
 }
