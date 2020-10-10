@@ -16,9 +16,9 @@ export default function Produto() {
     const [Cliente, setCliente] = useState('')
     const [Dia, setDia] = useState('')
     const [data, setData] = useState([])
-    const [columns] = useState([
-        'Produto', 'Cliente', 'Quantidade', 'Valor', 'Data'
-    ])
+    const [columns, setColumns] = useState([])
+    const [table, setTable] = useState('Tabela de Venda')
+    const [cadastrar, setCadastrar] = useState('Cadastrar')
 
     function handleDelete() {
         if(!(Produto !== '' && Cliente !== '' && Dia !== '' && $.isNumeric(Quantidade) && $.isNumeric(Valor))) {
@@ -80,20 +80,33 @@ export default function Produto() {
     }
 
     async function handleSelect(data) {
-        if(data !== null) {
-            setProduto(data.produto)
-            setQuantidade(data.quantidade)
-            setCliente(data.cliente)
-            setValor(data.valor)
-            setDia(data.data)
+        if(editar) {
+            if(data !== null) {
+                setProduto(data.produto)
+                setQuantidade(data.quantidade)
+                setCliente(data.cliente)
+                setValor(data.valor)
+                setDia(data.data)
+            } else {
+                dataGen()
+            }
+           return 
         } else {
-            dataGen()
+            if(data.produto !== '') {
+                setProduto(data.produto)
+                setQuantidade(0)
+                setDia(formatarData(new Date()))
+            } else {
+                dataGen()
+            }
+            return
         }
-       return 
+        
     }
 
     async function dataGen() {
         const sells = await api.get('/sell/showAll')
+        setColumns(['Produto', 'Cliente', 'Quantidade', 'Valor', 'Data'])
         const aux = []
         let i = 0
 
@@ -119,6 +132,25 @@ export default function Produto() {
         setData(aux)
     }
 
+    async function dataGenProduct() {
+        const products = await api.get('/product/showAll')
+        const aux = []
+        let i = 0
+        setColumns(['Produto', 'Fornecedor', 'Quantidade'])
+        
+        while(products.data[i]) {
+            console.log(products.data[i].fornecedor)
+            let element = {
+                produto: products.data[i].nome,
+                fornecedor: products.data[i].fornecedor.nome,
+                quantidade: products.data[i].quantidade
+            }
+            aux.push(element)
+            i++
+        }
+        setData(aux)
+    }
+
     function handleSignUp() {
         if(!editar) {
             Swal.fire({
@@ -133,6 +165,12 @@ export default function Produto() {
             }).then(async (result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isDenied) {
+                    setTable('Tabela de Venda')
+                    setCadastrar('Cadastrar')
+                    setDia('')
+                    setColumns([])
+                    setData([])
+                    dataGen()
                     return
                 } else {
                     if($.isNumeric(Quantidade) && $.isNumeric(Valor) && Produto !== '' && Cliente !== '') {
@@ -179,10 +217,33 @@ export default function Produto() {
                                 timer: 1200
                             })
                         }
-                    }
+                    } else {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'error',
+                            title: 'Todos os campos são obrigatórios!',
+                            showConfirmButton: false,
+                            timer: 1200
+                        })
+                    } 
+                    setTable('Tabela de Compras')
+                    setCadastrar('Cadastrar')
+                    setColumns([])
+                    setData([])
+                    dataGen()
+                    return
                 }
             })
-            dataGen()
+        } else {
+            setProduto('')
+            setQuantidade('')
+            setValor('')
+            setDia(formatarData(new Date()))
+            setTable('Tabela de Produtos')
+            setCadastrar('Salvar')
+            setColumns([])
+            setData([])
+            dataGenProduct()
         }
         setEditar(!editar)
         return
@@ -205,7 +266,7 @@ export default function Produto() {
             <ol className="buttons">
                 <li onClick={handleSignUp}>
                     <AddBoxIcon className="icon" id="cadastrar"/>
-                    <p>Cadastrar</p>
+                    <p>{cadastrar}</p>
                 </li>
                 <li onClick={handleDelete}>
                     <DeleteIcon className="icon" id="deletar"/>
@@ -244,8 +305,8 @@ export default function Produto() {
                                 <div className="nome">
                                     <p>Data:</p>
                                     <input
-                                        disabled={editar}
-                                        value={formatarData(Dia)}
+                                        disabled={true}
+                                        value={Dia ? (formatarData(Dia)):('')}
                                         onChange={(e) => {
                                             setDia(e.target.value)
                                         }}
@@ -281,7 +342,7 @@ export default function Produto() {
                     </form>
                 </li>
                 <li className="table">
-                    <h1>Tabela</h1>
+                    <h1>{table}</h1>
                     <div className="aux">
                         {data.length > 0 && (
                             <Table
@@ -305,7 +366,7 @@ export default function Produto() {
                                                 handleSelect(data)
                                             }}>
                                                 <td>{data.produto}</td>
-                                                <td>{data.cliente}</td>
+                                                <td>{editar ? data.cliente : data.fornecedor}</td>
                                                 <td>{data.quantidade}</td>
                                                 <td>{data.valor}</td>
                                                 <td>{formatarData(data.data)}</td>

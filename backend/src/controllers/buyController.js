@@ -1,6 +1,5 @@
 const buy = require('../model/buy')
 const product = require('../model/product')
-const { showOne } = require('./productController')
 
 module.exports = {
     async store(req, res) {
@@ -16,22 +15,20 @@ module.exports = {
 
         if (!exists) {
             return res.json(1)
-        } else {
-            exists.quantidade = exists.quantidade + quantidade
-            const porcentProduto = (exists.precoCompra / (exists.precoCompra + valor))
-            const porcentCompra = (valor / (exists.precoCompra + valor))
-            exists.precoCompra = (valor * porcentCompra) + (exists.precoCompra * porcentProduto)
-        }
+        } 
+
+        const valorCompra = quantidade * valor
+        const valorExistente = exists.quantidade * exists.precoCompra
+        const quantidadeTotal = parseInt(quantidade) + parseInt(exists.quantidade)
 
         await product.updateOne({
-                _id: produto_id
-            }, {
-                $set: {
-                    quantidade: exists.quantidade,
-                    precoCompra: exists.precoCompra.toFixed(2)
-                }
+            _id: produto_id
+        }, {
+            $set: {
+                quantidade: quantidadeTotal,
+                precoCompra: (valorCompra + valorExistente) / quantidadeTotal
             }
-        )
+        })
 
         await buy.create({
             produto_id: produto_id,
@@ -62,7 +59,7 @@ module.exports = {
             data: data
         })
 
-        if(exists){
+        if (exists) {
             return res.json(exists)
         } else {
             return res.json(1)
@@ -91,17 +88,17 @@ module.exports = {
         if (!aux) {
             return res.json(1)
         }
-
-        const coef = (quantidade / exists.quantidade)
-        const valorCompra = (exists.precoCompra - ( coef * valor))
-        const valorProduto = valorCompra / (1 - coef)
+        
+        const valorCompra = quantidade * valor
+        const valorExistente = exists.precoCompra * exists.quantidade
+        const quantidadeTotal = exists.quantidade - quantidade
 
         await product.updateOne({
             _id: produto_id
         }, {
             $set: {
-                quantidade: exists.quantidade - quantidade,
-                precoCompra: (valorProduto/1.12).toFixed(2)
+                quantidade: quantidadeTotal,
+                precoCompra: (valorExistente - valorCompra) / quantidadeTotal
             }
         })
 

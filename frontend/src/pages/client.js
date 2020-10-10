@@ -197,7 +197,6 @@ export default function Cliente() {
                         return
                     } 
 
-                    console.log(Nome, CPF)
                     if(Nome !== '') {
                         const aux = await api.put('client/update', {
                             nome: Nome,
@@ -290,7 +289,7 @@ export default function Cliente() {
                                     <p>Data de Nascimento:</p>
                                     <DatePicker
                                         selected={aux}
-                                        value={formatarData(nascimento)}
+                                        value={nascimento ? (formatarData(nascimento)):('')}
                                         disabled={editar}
                                         showYearDropdown
                                         dateFormatCalendar="MMMM"

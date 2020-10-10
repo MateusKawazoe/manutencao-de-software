@@ -5,7 +5,6 @@ import { Table } from 'reactstrap'
 import api from '../services/api'
 import Swal from 'sweetalert2'
 import AddBoxIcon from '@material-ui/icons/AddBox'
-import UpdateIcon from '@material-ui/icons/Update'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { formatarData } from '../common/dateFormat'
 
@@ -17,9 +16,9 @@ export default function Produto() {
     const [Fornecedor, setFornecedor] = useState('')
     const [Dia, setDia] = useState('')
     const [data, setData] = useState([])
-    const [columns] = useState([
-        'Produto', 'Fornecedor', 'Quantidade', 'Valor', 'Data'
-    ])
+    const [columns, setColumns] = useState([])
+    const [table, setTable] = useState('Tabela de Compras')
+    const [cadastrar, setCadastrar] = useState('Cadastrar')
 
     function handleDelete() {
         if(!(Produto !== '' && Fornecedor !== '' && Dia !== '' && $.isNumeric(Quantidade) && $.isNumeric(Valor))) {
@@ -94,33 +93,51 @@ export default function Produto() {
     }
 
     async function handleSelect(data) {
-        const clicked = await api.post('/product/showByDistributor', {
-            nome: data.produto,
-            fornecedor: data.fornecedor
-        })
-
-        const buys = await api.post('/buy/showOne', {
-            produto_id: clicked.data._id,
-            quantidade: data.quantidade ,
-            valor: data.valor,
-            data: data.data
-        })
-
-        if(buys.data !== 1) {
-            setProduto(clicked.data.nome)
-            setQuantidade(buys.data.quantidade)
-            setFornecedor(clicked.data.fornecedor.nome)
-            setValor(buys.data.valor)
-            setDia(buys.data.data)
+        if(editar) {
+            const clicked = await api.post('/product/showByDistributor', {
+                nome: data.produto,
+                fornecedor: data.fornecedor
+            })
+    
+            const buys = await api.post('/buy/showOne', {
+                produto_id: clicked.data._id,
+                quantidade: data.quantidade,
+                valor: data.valor,
+                data: data.data
+            })
+    
+            if(buys.data !== 1) {
+                setProduto(clicked.data.nome)
+                setQuantidade(buys.data.quantidade)
+                setFornecedor(clicked.data.fornecedor.nome)
+                setValor(buys.data.valor)
+                setDia(buys.data.data)
+            } else {
+                dataGen()
+            }
+            return
         } else {
-            dataGen()
-        }
-       return 
+            const clicked = await api.post('/product/showByDistributor', {
+                nome: data.produto,
+                fornecedor: data.fornecedor
+            })
+    
+            if(clicked.data !== 1) {
+                setProduto(clicked.data.nome)
+                setQuantidade(0)
+                setFornecedor(clicked.data.fornecedor.nome)
+                setDia(formatarData(new Date()))
+            } else {
+                dataGen()
+            }
+            return
+        } 
     }
 
     async function dataGen() {
         const buys = await api.get('/buy/showAll')
         const aux = []
+        setColumns(['Produto', 'Fornecedor', 'Quantidade', 'Valor (R$)', 'Data'])
         let i = 0
 
         while(buys.data[i]) {
@@ -145,6 +162,24 @@ export default function Produto() {
         setData(aux)
     }
 
+    async function dataGenProduct() {
+        const products = await api.get('/product/showAll')
+        const aux = []
+        let i = 0
+        setColumns(['Produto', 'Fornecedor', 'Quantidade'])
+
+        while(products.data[i]) {
+            let element = {
+                produto: products.data[i].nome,
+                fornecedor: products.data[i].fornecedor.nome,
+                quantidade: products.data[i].quantidade
+            }
+            aux.push(element)
+            i++
+        }
+        setData(aux)
+    }
+
     function handleSignUp() {
         if(!editar) {
             Swal.fire({
@@ -157,8 +192,13 @@ export default function Produto() {
                 denyButtonText: `Cancelar`,
                 denyButtonColor: 'red'
             }).then(async (result) => {
-                /* Read more about isConfirmed, isDenied below */
                 if (result.isDenied) {
+                    setTable('Tabela de Compras')
+                    setCadastrar('Cadastrar')
+                    setDia('')
+                    setColumns([])
+                    setData([])
+                    dataGen()
                     return
                 } else {
 
@@ -173,6 +213,8 @@ export default function Produto() {
                             quantidade: Quantidade,
                             valor: Valor
                         })
+
+                        console.log(aux)
 
                         if(aux.data == 2 && exists) {
                             Swal.fire({
@@ -192,10 +234,34 @@ export default function Produto() {
                                 timer: 1200
                             })
                         }
-                    }
+                    } else {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'error',
+                            title: 'Todos os campos são obrigatórios!',
+                            showConfirmButton: false,
+                            timer: 1200
+                        })
+                    } 
+                    setTable('Tabela de Compras')
+                    setCadastrar('Cadastrar')
+                    setColumns([])
+                    setData([])
+                    dataGen()
+                    return
                 }
             })
-            dataGen()
+        } else {
+            setProduto('')
+            setQuantidade('')
+            setFornecedor('')
+            setValor('')
+            setDia(formatarData(new Date()))
+            setTable('Tabela de Produtos')
+            setCadastrar('Salvar')
+            setColumns([])
+            setData([])
+            dataGenProduct()
         }
         setEditar(!editar)
         return
@@ -218,7 +284,7 @@ export default function Produto() {
             <ol className="buttons">
                 <li onClick={handleSignUp}>
                     <AddBoxIcon className="icon" id="cadastrar"/>
-                    <p>Cadastrar</p>
+                    <p>{cadastrar}</p>
                 </li>
                 <li onClick={handleDelete}>
                     <DeleteIcon className="icon" id="deletar"/>
@@ -233,7 +299,7 @@ export default function Produto() {
                             <p>Compra:</p>
                             <li className="descricao">
                                 <div className="nome">
-                                    <p>Valor:</p>
+                                    <p>Valor (R$):</p>
                                     <input
                                         disabled={editar}
                                         value={Valor}
@@ -257,8 +323,8 @@ export default function Produto() {
                                 <div className="nome">
                                     <p>Data:</p>
                                     <input
-                                        disabled={editar}
-                                        value={formatarData(Dia)}
+                                        disabled={true}
+                                        value={Dia ? (formatarData(Dia)):('')}
                                         onChange={(e) => {
                                             setDia(e.target.value)
                                         }}
@@ -294,7 +360,7 @@ export default function Produto() {
                     </form>
                 </li>
                 <li className="table">
-                    <h1>Tabela</h1>
+                    <h1>{table}</h1>
                     <div className="aux">
                         {data.length > 0 && (
                             <Table
