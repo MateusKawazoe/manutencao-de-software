@@ -200,6 +200,7 @@ export default function Produto() {
                     setColumns([])
                     setData([])
                     dataGen()
+                    setEditar(true)
                     return
                 } else {
 
@@ -249,6 +250,7 @@ export default function Produto() {
                     setColumns([])
                     setData([])
                     dataGen()
+                    setEditar(true)
                     return
                 }
             })
@@ -257,14 +259,14 @@ export default function Produto() {
             setQuantidade('')
             setFornecedor('')
             setValor('')
-            setDia(formatarData(new Date()))
+            setDia(new Date())
             setTable('Tabela de Produtos')
             setCadastrar('Salvar')
             setColumns([])
             setData([])
             dataGenProduct()
+            setEditar(false)
         }
-        setEditar(!editar)
         return
     }  
 
@@ -327,7 +329,7 @@ export default function Produto() {
                                     <p>Data:</p>
                                     <input
                                         disabled={true}
-                                        value={Dia ? (formatarData(Dia)):('')}
+                                        value={Dia ? (formatarData(Dia)) : ('')}
                                         onChange={(e) => {
                                             setDia(e.target.value)
                                         }}
@@ -390,7 +392,11 @@ export default function Produto() {
                                                 <td>{data.fornecedor}</td>
                                                 <td>{data.quantidade}</td>
                                                 <td>{data.valor}</td>
-                                                <td>{formatarData(data.data)}</td>
+                                                {editar ? (
+                                                    <td>{formatarData(data.data)}</td>
+                                                ) : (
+                                                    <></>
+                                                )}
                                             </tr>
                                         )
                                     })}

@@ -172,6 +172,7 @@ export default function Produto() {
                     setColumns([])
                     setData([])
                     dataGen()
+                    setEditar(true)
                     return
                 } else {
                     if($.isNumeric(Quantidade) && $.isNumeric(Valor) && Produto !== '' && Cliente !== '') {
@@ -227,11 +228,12 @@ export default function Produto() {
                             timer: 1200
                         })
                     } 
-                    setTable('Tabela de Compras')
+                    setTable('Tabela de Vendas')
                     setCadastrar('Cadastrar')
                     setColumns([])
                     setData([])
                     dataGen()
+                    setEditar(true)
                     return
                 }
             })
@@ -239,14 +241,14 @@ export default function Produto() {
             setProduto('')
             setQuantidade('')
             setValor('')
-            setDia(formatarData(new Date()))
+            setDia(new Date())
             setTable('Tabela de Produtos')
             setCadastrar('Salvar')
             setColumns([])
             setData([])
             dataGenProduct()
+            setEditar(false)
         }
-        setEditar(!editar)
         return
     }  
 
@@ -372,7 +374,11 @@ export default function Produto() {
                                                 <td>{editar ? data.cliente : data.fornecedor}</td>
                                                 <td>{data.quantidade}</td>
                                                 <td>{data.valor}</td>
-                                                <td>{formatarData(data.data)}</td>
+                                                {editar ? (
+                                                    <td>{formatarData(data.data)}</td>
+                                                ) : (
+                                                    <></>
+                                                )}
                                             </tr>
                                         )
                                     })}
