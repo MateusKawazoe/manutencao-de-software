@@ -58,17 +58,6 @@ export default function Produto() {
                     }
                 })
 
-                if(aux.data == 3) {
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'error',
-                        title: 'Fornecedor já cadastrado!',
-                        showConfirmButton: false,
-                        timer: 1200
-                    })
-                    return
-                }
-
                 if(aux.data == 2) {
                     Swal.fire({
                         position: 'center',
@@ -175,7 +164,7 @@ export default function Produto() {
                             Swal.fire({
                                 position: 'center',
                                 icon: 'success',
-                                title: 'Produto atualizado!',
+                                title: 'Produto cadastrado com sucesso!',
                                 showConfirmButton: false,
                                 timer: 1200
                             })

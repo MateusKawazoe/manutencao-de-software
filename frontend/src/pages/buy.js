@@ -127,7 +127,7 @@ export default function Produto() {
                 setProduto(clicked.data.nome)
                 setQuantidade(0)
                 setFornecedor(clicked.data.fornecedor.nome)
-                setDia(formatarData(new Date()))
+                setDia(new Date())
             } else {
                 dataGen()
             }

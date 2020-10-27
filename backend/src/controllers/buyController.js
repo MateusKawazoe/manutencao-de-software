@@ -26,7 +26,7 @@ module.exports = {
         }, {
             $set: {
                 quantidade: quantidadeTotal,
-                precoCompra: (valorCompra + valorExistente) / quantidadeTotal
+                precoCompra: ((valorCompra + valorExistente) / quantidadeTotal).toFixed(2)
             }
         })
 

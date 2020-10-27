@@ -20,8 +20,6 @@ module.exports = {
                 nome: fornecedor.nome,
                 CNPJ: fornecedor.CNPJ
             })
-        } else {
-            return res.json(3)
         }
 
         const exists = await product.findOne({

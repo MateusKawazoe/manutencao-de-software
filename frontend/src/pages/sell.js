@@ -96,7 +96,7 @@ export default function Produto() {
             if(data.produto !== '') {
                 setProduto(data.produto)
                 setQuantidade(0)
-                setDia(formatarData(new Date()))
+                setDia(new Date())
             } else {
                 dataGen()
             }
