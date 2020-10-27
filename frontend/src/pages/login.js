@@ -50,6 +50,14 @@ export default function Login({ history }) {
                     usuario: user,
                     senha: password
                 })
+
+                if(token.data == 1) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Usuário já cadastrado',
+                    })
+                    return
+                }
                 localStorage.setItem('token', token.data)
                 localStorage.setItem('username', user)
                 await Swal.fire({

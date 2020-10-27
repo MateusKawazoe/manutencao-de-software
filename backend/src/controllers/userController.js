@@ -14,7 +14,7 @@ module.exports = {
 		})
 
 		if (userExists) {
-			return res.json("Usuário já cadastrado!")
+			return res.json(1)
 		}
 
 		const token = await auth_token.generateToken({

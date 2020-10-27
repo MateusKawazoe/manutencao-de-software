@@ -1,6 +1,7 @@
 .container {
     width: 425px;
-    height: 415.8px;
+    max-height: 415.8px;
+    height: 100%;
     display: flex;
     background-color: #fff;
     align-self: center;
@@ -26,6 +27,7 @@
 form {
     display: flex;
     flex-direction: column;
+    height: fit-content;
 }
 
 h1 {
