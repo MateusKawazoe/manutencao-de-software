@@ -101,15 +101,11 @@ export default function Main({ history }) {
         })  
     }
 
-    function handleKonda() {
-        alert('Konda1 é gay demais!')
-    }
-
     return(
         <div className="main-container">
             <header>
                 <div className="background"/>
-                <div className="logo" onClick={handleKonda}>
+                <div className="logo">
                     <img src={logo} alt="logo"></img>
                     <h1>K0nda1</h1>
                     <p>SA</p>
