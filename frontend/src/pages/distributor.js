@@ -17,6 +17,7 @@ export default function Fornecedor() {
     const [columns] = useState([
         'Nome', 'CNPJ'
     ])
+    const numberMask = new RegExp('^[0-9]*$')
 
     function handleDelete() {
         if(!(Nome !== '' && CNPJ !== '')) {
@@ -270,8 +271,10 @@ export default function Fornecedor() {
                                     <input
                                         value={CNPJ}
                                         disabled={editar}
+                                        maxLength={14}
                                         onChange={(e) => {
-                                            setCNPJ(e.target.value)
+                                            if(numberMask.test(e.target.value))
+                                                setCNPJ(e.target.value)
                                         }}
                                     />
                                 </div>

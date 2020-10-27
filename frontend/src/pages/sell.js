@@ -19,6 +19,7 @@ export default function Produto() {
     const [columns, setColumns] = useState([])
     const [table, setTable] = useState('Tabela de Venda')
     const [cadastrar, setCadastrar] = useState('Cadastrar')
+    const numberMask = new RegExp('^[0-9]*$')
 
     function handleDelete() {
         if(!(Produto !== '' && Cliente !== '' && Dia !== '' && $.isNumeric(Quantidade) && $.isNumeric(Valor))) {
@@ -286,7 +287,8 @@ export default function Produto() {
                                         disabled={editar}
                                         value={Valor}
                                         onChange={(e) => {
-                                            setValor(e.target.value)
+                                            if(numberMask.test(e.target.value))
+                                                setValor(e.target.value)
                                         }}
                                     />
                                 </div>
@@ -296,7 +298,8 @@ export default function Produto() {
                                         disabled={editar}
                                         value={Quantidade}
                                         onChange={(e) => {
-                                            setQuantidade(e.target.value)
+                                            if(numberMask.test(e.target.value))
+                                                setQuantidade(e.target.value)
                                         }}
                                     />
                                 </div>

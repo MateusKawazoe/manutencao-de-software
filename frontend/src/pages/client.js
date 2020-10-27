@@ -11,6 +11,8 @@ import { validarCPF } from '../common/validator'
 import DatePicker  from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css"
 import { formatarData } from '../common/dateFormat'
+import { formatarCPF, removeMask } from '../common/cpfFormat'
+import InputMask from 'react-input-mask'
 
 export default function Cliente() {
     const [editar, setEditar] = useState(true)
@@ -22,6 +24,7 @@ export default function Cliente() {
     const [columns] = useState([
         'Nome', 'CPF', 'Data de Nascimento'
     ])
+    const numberMask = new RegExp('^[0-9]*$')
 
     function handleDelete() {
         if(!(Nome !== '' && CPF !== '')) {
@@ -78,7 +81,7 @@ export default function Cliente() {
 
     async function handleSelect(data) {
         const clicked = await api.post('/client/showOne', {
-            CPF: data.CPF
+            CPF: removeMask(data.CPF)
         })
 
         if(clicked.data !== 1) {
@@ -99,7 +102,7 @@ export default function Cliente() {
         while(client.data[i]) {
             let element = {
                 nome: client.data[i].nome,
-                CPF: client.data[i].CPF,
+                CPF: formatarCPF(client.data[i].CPF),
                 nascimento: formatarData(client.data[i].nascimento)
             }
             aux.push(element)
@@ -273,11 +276,13 @@ export default function Cliente() {
                                 </div>
                                 <div className="nome">
                                     <p>CPF:</p>
-                                    <input
+                                    <InputMask
                                         value={CPF}
                                         disabled={editar}
+                                        maxLength={11}
                                         onChange={(e) => {
-                                            setCPF(e.target.value)
+                                            if(numberMask.test(e.target.value))
+                                                setCPF(e.target.value)
                                         }}
                                     />
                                 </div>

@@ -22,6 +22,7 @@ export default function Produto() {
     const [columns] = useState([
         'Produto', 'Fornecedor', 'CNPJ' 
     ])
+    const numberMask = new RegExp('^[0-9]*$')
 
     function handleDelete() {
         if(!(Nome !== '' && Fornecedor !== '' && CNPJ !== '')) {
@@ -302,7 +303,8 @@ export default function Produto() {
                                         disabled={editar}
                                         value={Quantidade}
                                         onChange={(e) => {
-                                            setQuantidade(e.target.value)
+                                            if(numberMask.test(e.target.value))
+                                                setQuantidade(e.target.value)
                                         }}
                                     />
                                 </div>
@@ -314,7 +316,8 @@ export default function Produto() {
                                         disabled={editar}
                                         value={Compra}
                                         onChange={(e) => {
-                                            setCompra(e.target.value)
+                                            if(numberMask.test(e.target.value))
+                                                setCompra(e.target.value)
                                         }}
                                     />
                                 </div>
@@ -324,7 +327,8 @@ export default function Produto() {
                                         disabled={editar}
                                         value={Venda}
                                         onChange={(e) => {
-                                            setVenda(e.target.value)
+                                            if(numberMask.test(e.target.value))
+                                                setVenda(e.target.value)
                                         }}
                                     />
                                 </div>
@@ -349,7 +353,8 @@ export default function Produto() {
                                         value={CNPJ}
                                         disabled={editar}
                                         onChange={(e) => {
-                                            setCNPJ(e.target.value)
+                                            if(numberMask.test(e.target.value))
+                                                setCNPJ(e.target.value)
                                         }}
                                     />
                                 </div>
