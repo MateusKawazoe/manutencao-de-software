@@ -8,6 +8,7 @@ import AddBoxIcon from '@material-ui/icons/AddBox'
 import UpdateIcon from '@material-ui/icons/Update'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { validarCNPJ } from '../common/validator'
+import InputMask from 'react-input-mask'
 
 export default function Fornecedor() {
     const [editar, setEditar] = useState(true)
@@ -268,13 +269,14 @@ export default function Fornecedor() {
                                 </div>
                                 <div className="nome">
                                     <p>CNPJ:</p>
-                                    <input
+                                    <InputMask
+                                        maskChar=''
+                                        mask='99.999.999/9999-99'
                                         value={CNPJ}
                                         disabled={editar}
-                                        maxLength={14}
+                                        maxLength={18}
                                         onChange={(e) => {
-                                            if(numberMask.test(e.target.value))
-                                                setCNPJ(e.target.value)
+                                            setCNPJ(e.target.value)
                                         }}
                                     />
                                 </div>
