@@ -82,22 +82,21 @@ export default function Main({ history }) {
         Swal.fire({
             title: 'Tem certeza que deseja sair?',
             icon: 'warning',
-            showConfirmButton: false,
+            showConfirmButton: true,
             showDenyButton: true,
-            showCancelButton: true,
-            cancelButtonText: `Cancelar`,
-            denyButtonText: `Sair`,
-            denyButtonColor: '#d33'
+            confirmButtonColor: 'green',
+            confirmButtonText: `Confirmar`,
+            denyButtonText: `Cancelar`,
+            denyButtonColor: 'red'
           }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
-            if (result.isDenied) {
+            if (result.isConfirmed) {
                 localStorage.setItem('token', '')
                 localStorage.setItem('username', '')
                 localStorage.setItem('selected', '')
                 history.push('/')
-            } else if (result.isDenied) {
-              return
             }
+            return
         })  
     }
 
