@@ -277,12 +277,13 @@ export default function Cliente() {
                                 <div className="nome">
                                     <p>CPF:</p>
                                     <InputMask
+                                        maskChar=''
+                                        mask='999.999.999-99'
                                         value={CPF}
                                         disabled={editar}
-                                        maxLength={11}
+                                        maxLength={14}
                                         onChange={(e) => {
-                                            if(numberMask.test(e.target.value))
-                                                setCPF(e.target.value)
+                                            setCPF(e.target.value)
                                         }}
                                     />
                                 </div>
