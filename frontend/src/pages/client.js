@@ -11,7 +11,6 @@ import { validarCPF } from '../common/validator'
 import DatePicker  from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css"
 import { formatarData } from '../common/dateFormat'
-import { formatarCPF, removeMask } from '../common/cpfFormat'
 import InputMask from 'react-input-mask'
 
 export default function Cliente() {
@@ -81,7 +80,7 @@ export default function Cliente() {
 
     async function handleSelect(data) {
         const clicked = await api.post('/client/showOne', {
-            CPF: removeMask(data.CPF)
+            CPF: data.CPF
         })
 
         if(clicked.data !== 1) {
@@ -102,7 +101,7 @@ export default function Cliente() {
         while(client.data[i]) {
             let element = {
                 nome: client.data[i].nome,
-                CPF: formatarCPF(client.data[i].CPF),
+                CPF: client.data[i].CPF,
                 nascimento: formatarData(client.data[i].nascimento)
             }
             aux.push(element)
